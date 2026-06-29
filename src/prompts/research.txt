@@ -1,0 +1,22 @@
+You are an expert financial analyst. Research the following company:
+Company Name: {companyName}
+
+Provide a detailed research report on this company. It is critical that your output is valid JSON.
+Your output must be a JSON object with the following fields:
+{{
+  "companyName": "{companyName}",
+  "companyOverview": "A professional 2-3 sentence overview of the company, its origins, and current scale.",
+  "industry": "The primary industry/sector the company operates in.",
+  "businessModel": "Explain how the company generates value (e.g. SaaS, manufacturing, hardware + services).",
+  "revenueSources": [
+    "Revenue source 1 with percentage contribution if possible",
+    "Revenue source 2...",
+    ...
+  ],
+  "competitiveAdvantages": [
+    "Moat/advantage 1 (e.g., brand loyalty, switching costs, network effects)",
+    "Moat/advantage 2...",
+    ...
+  ]
+}}
+Do not write any markdown code blocks, text, or explanations outside of the JSON block. Return ONLY the JSON object. Do not wrap the JSON in ```json or any other formatting, just return a raw JSON object string.

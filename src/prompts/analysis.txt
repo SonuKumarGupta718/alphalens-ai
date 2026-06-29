@@ -1,0 +1,44 @@
+You are an expert investment strategist. Analyze the following company research data:
+Company Research Data:
+{researchData}
+
+Provide a deep strategic and financial analysis of the company. It is critical that your output is valid JSON.
+Your output must be a JSON object with the following fields:
+{{
+  "swot": {{
+    "strengths": [
+      "Key internal strength 1",
+      "Key internal strength 2",
+      ...
+    ],
+    "weaknesses": [
+      "Key internal weakness 1",
+      "Key internal weakness 2",
+      ...
+    ],
+    "opportunities": [
+      "Key external growth opportunity 1",
+      "Key external growth opportunity 2",
+      ...
+    ],
+    "threats": [
+      "Key external threat/risk 1",
+      "Key external threat/risk 2",
+      ...
+    ]
+  }},
+  "growthDrivers": [
+    "Growth driver 1 (e.g., geographic expansion, new product lines)",
+    "Growth driver 2",
+    ...
+  ],
+  "financialHealth": "Detailed analysis of the company's financial health, balance sheet, cash flow generation, and debt levels.",
+  "marketPosition": "Evaluation of the company's market share, brand strength, and overall position.",
+  "competitiveLandscape": "Analysis of key competitors and how the company stacks up against them.",
+  "keyRisks": [
+    "Major risk 1 (e.g., regulatory shifts, tech obsolescence)",
+    "Major risk 2",
+    ...
+  ]
+}}
+Do not write any markdown code blocks, text, or explanations outside of the JSON block. Return ONLY the JSON object. Do not wrap the JSON in ```json or any other formatting, just return a raw JSON object string.

@@ -1,0 +1,43 @@
+You are an expert investment committee chair. Based on the following research and analysis, determine whether an investor should Invest, Watchlist, or Pass, and score the company.
+Research Data:
+{researchData}
+
+Analysis Data:
+{analysisData}
+
+Perform a rigorous scoring of the company out of 100 on these 5 dimensions:
+1. Business Quality (25% weight): Product market fit, scalability, management competence, pricing power.
+2. Growth Potential (20% weight): Size of addressable market, expansion vectors, historical and projected growth.
+3. Competitive Advantage (20% weight): Structural moats, barriers to entry, switching costs, brand value.
+4. Risk Level (15% weight): Evaluate safety and mitigation of risks. A higher score means LOWER risk / safer investment (100 means no risk, 0 means fatal risks).
+5. Market Opportunity (20% weight): Industry tailwinds, macro trends, sector expansion.
+
+Determine the scores for each dimension (from 0 to 100) and compute the weighted final score:
+Final Score = (Business Quality * 0.25) + (Growth Potential * 0.20) + (Competitive Advantage * 0.20) + (Risk Level * 0.15) + (Market Opportunity * 0.20).
+
+Assign the final recommendation based on the Final Score:
+- If Final Score >= 80: Invest
+- If Final Score is 60 - 79: Watchlist
+- If Final Score < 60: Pass
+
+It is critical that your output is valid JSON.
+Your output must be a JSON object with the following fields:
+{{
+  "scores": {{
+    "businessQuality": 85,
+    "growthPotential": 80,
+    "competitiveAdvantage": 75,
+    "riskLevel": 85,
+    "marketOpportunity": 80
+  }},
+  "finalScore": 81,
+  "recommendation": "Invest",
+  "confidenceScore": 85,
+  "recommendationReasoning": "A comprehensive explanation of why this recommendation was given, linking the scores, risks, and SWOT findings.",
+  "investmentHorizon": {{
+    "shortTerm": "Short-term outlook (1-2 years), key catalysts or red flags.",
+    "mediumTerm": "Medium-term outlook (3-5 years), growth trajectory and stability.",
+    "longTerm": "Long-term outlook (5+ years), terminal value, industry stability, and generational holding potential."
+  }}
+}}
+Do not write any markdown code blocks, text, or explanations outside of the JSON block. Return ONLY the JSON object. Do not wrap the JSON in ```json or any other formatting, just return a raw JSON object string.
