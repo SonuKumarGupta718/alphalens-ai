@@ -1,162 +1,105 @@
-# AlphaLens AI - AI Investment Research Agent
+# AlphaLens AI - Fundamental Investment Research Platform
 
-AlphaLens AI is a modern, premium, and minimal AI-powered investment research agent. It conducts multi-step, sequential financial analysis on any user-specified company and evaluates whether investors should **Invest**, **Watchlist**, or **Pass**, supported by comprehensive qualitative reasoning and a weighted scoring engine.
+AlphaLens AI is a modern, premium, and minimal fundamental research tool. It automates equity analysis on any company by running a three-stage sequential reasoning pipeline (Research ➡️ Analysis ➡️ Recommendation) and outputs a detailed financial profile, SWOT matrix, and calculated investment recommendation: **Invest**, **Watchlist**, or **Pass**.
 
 ---
 
 ## 📈 Project Overview
-Traditional equity research takes hours of pulling filings, reading transcripts, and synthesizing data. **AlphaLens AI** uses sequential LangChain reasoning chains to compile a deep strategic and financial profile of a business, run a SWOT analysis, evaluate growth vectors, audit risks, and score the investment opportunity across five core dimensions using Google's Gemini API.
+Traditional equity fundamental analysis takes hours of pulling filings, parsing financial statements, and compiling SWOT profiles. **AlphaLens AI** automates this by orchestrating a structured sequential pipeline using Google's Gemini API and LangChain.js. 
+
+The application features a dark-themed glassmorphism dashboard with circular SVG confidence gauges, weighted factor progress bars, side-by-side growth/risk lists, and local search history persistence.
 
 ---
 
 ## ✨ Features
-- **Sleek Glassmorphic Dashboard**: A premium dark-mode dashboard with custom glow states, circular confidence meters, and visual cards.
-- **Dynamic Multi-Step Loading Experience**: An animated progress stepper simulating the multi-layer research workflow.
-- **Three-Tier Sequential Chains**: Modular chain pipeline (`Research` ➡️ `Analysis` ➡️ `Recommendation`) structured in LangChain.js.
-- **Strict Programmatic Scoring System**: Recalculates category weightings programmatically to enforce arithmetic accuracy (eliminating LLM math bugs).
-- **Recent Search Terminal**: Local history tracking (`localStorage`) that caches and lists recent searches.
-- **Responsive Layout**: Designed for mobile and desktop screens.
+- **Sequential Reasoning Pipeline**: Separates information gathering, strategic auditing, and recommendation logic into three modular stages to ensure high-detail output.
+- **Sleek Glassmorphic Dashboard**: A premium, responsive interface featuring custom glow states, circular gauges, and card grids.
+- **Strict Programmatic Scoring System**: Recalculates category weightings programmatically to enforce mathematical accuracy (preventing LLM arithmetic errors).
+- **Recent Search Terminal**: Uses the browser's `localStorage` API to cache and display your recent searches persistently.
+- **Offline / Rate-Limit Protection**: Implements a backend fallback cache that serves realistic data for popular assets if API quotas are exhausted.
 
 ---
 
-## 🏗️ Architecture Diagram
-Below is the request lifecycle and execution pipeline:
+## 🏗️ Technical Architecture & How It Works
+The platform follows a modular, serverless Next.js App Router structure:
 
-```mermaid
-graph TD
-    User([User Input]) -->|Company Name| FE[Frontend Dashboard]
-    FE -->|POST /api/analyze| BE[API Route]
-    BE -->|Triggers Orchestrator| Chain[Agent Orchestrator]
-    
-    subgraph LangChain Pipeline
-        Chain -->|Step 1| RC[Research Chain]
-        RC -->|JSON Output| AC[Analysis Chain]
-        AC -->|SWOT & Risk Analysis| REC[Recommendation Chain]
-        REC -->|Scoring & Horizon| Score[Weighted Scoring Engine]
-    end
-    
-    Score -->|Verify Math & Thresholds| Clean[Data Sanitization]
-    Clean -->|Return Complete JSON| BE
-    BE -->|Success Response| FE
-    FE -->|Framer Motion Render| Dashboard[Display Dashboard Cards]
-```
-
----
-
-## 📁 Folder Structure
-The codebase follows a modular structure:
 ```text
-Assigment online/
-├── src/
-│   ├── app/
-│   │   ├── api/
-│   │   │   └── analyze/
-│   │   │       └── route.ts       # Backend Next.js API route
-│   │   ├── globals.css            # Dark mode styles & custom utilities
-│   │   ├── layout.tsx             # Root layout & page metadata
-│   │   └── page.tsx               # Main Dashboard page (Client Controller)
-│   ├── chains/
-│   │   ├── index.ts               # Orchestrator & Scoring math validation
-│   │   ├── researchChain.ts       # Step 1: Company data gatherer
-│   │   ├── analysisChain.ts       # Step 2: SWOT and strategic auditor
-│   │   └── recommendationChain.ts # Step 3: Scoring assigner
-│   ├── components/
-│   │   ├── SearchBar.tsx          # Search component with suggestion chips
-│   │   ├── LoadingProgress.tsx    # Multi-step animated progress bar
-│   │   ├── ScoreCard.tsx          # Five-factor weighted progress bars
-│   │   ├── SWOTCard.tsx           # Glowing 2x2 grid representing SWOT
-│   │   ├── ConfidenceMeter.tsx    # Animated SVG radial confidence meter
-│   │   ├── RecommendationBadge.tsx# Action status badge (Invest, Watchlist, Pass)
-│   │   └── Footer.tsx             # Professional dashboard footer
-│   ├── prompts/
-│   │   ├── research.txt           # Prompt template for Research Chain
-│   │   ├── analysis.txt           # Prompt template for Analysis Chain
-│   │   └── recommendation.txt     # Prompt template for Recommendation Chain
-│   ├── types/
-│   │   └── index.ts               # Complete TypeScript interfaces
-│   └── lib/
-│       └── utils.ts               # Utility wrapper for merging Tailwind classes
-├── .env.example                   # Template env configurations
-├── package.json                   # Project scripts and dependencies
-└── tsconfig.json                  # TypeScript compiler settings
+[User Search Input] ➡️ [Next.js API Route /api/analyze] ➡️ [Orchestrator Chain] ➡️ [Research ➡️ Analysis ➡️ Recommendation] ➡️ [Programmatic Math Verification] ➡️ [Frontend Dashboard]
 ```
+
+### The Three-Stage Reasoning Pipeline
+To get high-detail profiles and prevent hallucination, the task is divided into three sequential steps:
+1. **Research Chain**: Gathers raw company facts, industry sectors, business monetization models, and competitive advantages (moats).
+2. **Analysis Chain**: Formulates the SWOT matrix (Strengths, Weaknesses, Opportunities, Threats), growth drivers, key risks, financial health, and market positions.
+3. **Recommendation Chain**: Evaluates the company across 5 key dimensions, assigns scores, projects short/medium/long-term horizons, and formats the reasoning.
 
 ---
 
-## ⚙️ Environment Variables
-The application requires a Gemini API key. Create a `.env` file in the root directory (a template is pre-created for you):
+## ⚙️ How to Install & Run
 
+### Prerequisites
+* **Node.js** (v18.0.0 or higher)
+* **npm** (v9.0.0 or higher)
+* **Google Gemini API Key** (from Google AI Studio)
+
+### Installation
+1. Clone the project folder:
+   ```bash
+   cd "alphalens-ai"
+   ```
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
+
+### Environment Configuration
+Create a `.env` file in the root directory (a template is pre-created as `.env.example`):
 ```env
+# Gemini API Key used by LangChain.js
 GOOGLE_API_KEY=your_gemini_api_key_here
+
+# Target model (defaults to stable gemini-2.5-flash for production safety)
+GEMINI_MODEL=gemini-2.5-flash
 ```
-> Get a free API key at [Google AI Studio](https://aistudio.google.com/).
+
+### Running Locally
+1. Start the development server:
+   ```bash
+   npm run dev
+   ```
+2. Open your browser and navigate to **http://localhost:3000**.
+
+3. To build and run in production:
+   ```bash
+   npm run build
+   npm run start
+   ```
 
 ---
 
-## 🚀 How to Install & Run
+## ⚖️ Key Decisions & Trade-offs
 
-### 1. Install Dependencies
-In the root directory, install the required packages:
-```bash
-npm install
-```
-
-### 2. Start the Development Server
-Run the local next server:
-```bash
-npm run dev
-```
-Open **[http://localhost:3000](http://localhost:3000)** in your browser to view the application.
-
-### 3. Build for Production
-To test production compiles:
-```bash
-npm run build
-npm run start
-```
+| Decision | Chosen Solution | Why It Was Chosen | Trade-off / What Was Left Out |
+| :--- | :--- | :--- | :--- |
+| **Backend Integration** | Next.js API Routes | Eliminates the need for a separate Node/Express backend server, making deployments to Vercel simple and serverless. | Left out complex web sockets or message queues since requests resolve in standard API cycles. |
+| **Math Accuracy** | Programmatic Calculations | LLMs frequently make simple arithmetic errors when multiplying weights. We let the LLM generate the 5 scores, but **programmatically** calculated the weighted sum in TypeScript. | The LLM doesn't have 100% control over the final score label, ensuring strict threshold compliance. |
+| **History Caching** | Browser `localStorage` | Caches recent searches locally on the user's browser, providing a SaaS-like history panel with zero database setups. | Left out Postgres/Prisma database layers to keep the project light and easy to explain. |
+| **API Limit Protection** | Offline Mock Fallback Mode | If the user hits Google's free-tier daily rate limits (20 requests/day), the API catches the error and serves pre-cooked mock profiles or generates custom data on the fly. | The user sees pre-generated high-quality data during quota exhaustion rather than a raw server crash. |
 
 ---
 
-## 🧠 How LangChain.js & Prompts Work
-AlphaLens uses **LangChain Expression Language (LCEL)** structures to guide the Gemini model.
+## 📊 Scoring Logic & Thresholds
+To guarantee mathematical precision, the final score is calculated programmatically using specific weightings:
 
-1. **Sequential Chaining**: Instead of asking the AI to analyze everything at once (which degrades detail), the task is broken into three steps:
-   - **Research**: Gathers raw business facts and revenue allocations.
-   - **Analysis**: Conducts SWOT and audits risks.
-   - **Recommendation**: Compares research and SWOT inputs to score and label the asset.
-2. **Strict Output Parsing**: Prompt instructions require Gemini to output JSON without markdown wrappers, which is then cleaned by our custom sanitizer (`cleanJsonResponse`) and parsed into static TypeScript structures.
+$$\text{Final Score} = (0.25 \times \text{Quality}) + (0.20 \times \text{Growth}) + (0.20 \times \text{Moat}) + (0.15 \times \text{Risk}) + (0.20 \times \text{Market})$$
 
----
-
-## 📊 Scoring Logic
-To guarantee mathematical precision, the final score is calculated **programmatically** in the orchestrator file using the specific weightings rather than relying on LLM math:
-
-| Category | Weight | Description |
-| :--- | :---: | :--- |
-| **Business Quality** | `25%` | Product-market fit, scalability, management |
-| **Growth Potential** | `20%` | TAM size, vectors of expansion |
-| **Competitive Advantage** | `20%` | Structural moats, switching costs, brand value |
-| **Risk Mitigation** | `15%` | Mitigating core headwinds (higher is safer) |
-| **Market Opportunity** | `20%` | Sector tailwinds and macroeconomic support |
-
-### Score Thresholds
 - 🟢 **Score >= 80**: **Invest**
 - 🟡 **Score 60 - 79**: **Watchlist**
 - 🔴 **Score < 60**: **Pass**
 
 ---
 
-## 🔮 Future Improvements
-- **Live Yahoo Finance Integrations**: Fetching real-time market data, price-to-earnings, and beta.
-- **SEC Filing Scrapers**: Integrating SEC Edgar API to pull official Form 10-K and 10-Q documents.
-- **Export PDF Report**: Button to download the generated visual research report as a PDF.
-- **Portfolio Tracking**: Save analyzed companies into a watchlist database.
-
----
-
-## 🌐 Deployment
-AlphaLens can be deployed with one click to **Vercel**:
-1. Push your code to GitHub.
-2. Link your repository to Vercel.
-3. Add the `GOOGLE_API_KEY` to Vercel Environment Variables.
-4. Deploy!
+## 🔮 Future Enhancements
+1. **Live Financial Data Integration**: Integrate the Yahoo Finance API (`yahoo-finance2`) to pull real-time trading metrics, P/E multiples, and beta calculations.
+2. **SEC Edgar PDF Scrapers**: Build a document loading loader in LangChain to scrape and parse Form 10-K and 10-Q filings directly from the SEC database for real-time compliance auditing.
+3. **Multi-Agent Search Grounding**: Equip the agent with Google Search or Tavily Web Search capabilities to fetch real-time financial news instead of relying solely on LLM parametric memory.
