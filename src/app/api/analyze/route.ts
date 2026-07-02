@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     try {
       // 1. Attempt to run the live LangChain sequential reasoning agent
       const result = await runInvestmentResearchAgent(companyName);
-      return NextResponse.json(result, { status: 200 });
+      return NextResponse.json({ ...result, isSimulated: false }, { status: 200 });
       
     } catch (apiError) {
       console.warn("Live API execution failed. Triggering offline mock cache fallback. Reason:", apiError);
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       // Add a small 2-second delay to preserve the premium multi-step loading experience on the UI
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      return NextResponse.json(fallbackResult, { status: 200 });
+      return NextResponse.json({ ...fallbackResult, isSimulated: true }, { status: 200 });
     }
 
   } catch (error) {

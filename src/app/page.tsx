@@ -299,10 +299,19 @@ export default function Home() {
                   <span className="text-xs font-mono text-indigo-400 uppercase tracking-widest bg-indigo-950/30 border border-indigo-900/20 px-2.5 py-1 rounded-md">
                     {result.industry}
                   </span>
-                  <h2 className="text-3xl font-extrabold tracking-tight text-white mt-3.5">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-white mt-3.5 flex flex-wrap items-center gap-2.5">
                     {result.companyName}
+                    {result.isSimulated ? (
+                      <span className="text-[10px] bg-amber-500/10 border border-amber-500/20 text-amber-400 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                        Offline Cache
+                      </span>
+                    ) : (
+                      <span className="text-[10px] bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                        Live AI Report
+                      </span>
+                    )}
                   </h2>
-                  <p className="text-sm text-slate-400 mt-1 leading-relaxed max-w-xl">
+                  <p className="text-sm text-slate-400 mt-2 leading-relaxed max-w-xl">
                     Comprehensive equity analysis dashboard and research summary generated via sequential intelligence.
                   </p>
                 </div>

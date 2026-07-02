@@ -40,6 +40,7 @@ export interface AnalysisResult {
   recommendation: InvestmentRecommendation;
   confidenceScore: number;
   recommendationReasoning: string;
+  isSimulated?: boolean;
 }
 
 export interface SearchHistoryItem {
